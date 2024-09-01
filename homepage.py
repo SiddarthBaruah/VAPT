@@ -5,6 +5,7 @@ import json
 st.title('Network Scan App')
 
 # Input fields
+server_target = st.text_input('Server', 'http://127.0.0.1:3000/scan')
 ip_address = st.text_input('IP Address', '10.24.9.31')
 scan_type = st.selectbox('Scan Type', ['nmap', 'nikto'])
 command_options = st.text_input('Command Options', '-sV')
@@ -38,8 +39,8 @@ if st.button('Run Scan'):
     }
 
     # Send the request to the API
-    response = requests.post('http://127.0.0.1:3000/scan', headers={
-                             'Content-Type': 'application/json'}, data=json.dumps(payload))
+    response = requests.post(server_target, headers={
+                             'Content-Type': 'application/json'}, data=json.dumps(payload), timeout=3000)
 
     # Display the output
     if response.status_code == 200:
